@@ -1,0 +1,27 @@
+spring: # default test profile
+  datasource:
+    url: "jdbc:h2:mem:birthdayFunding;"
+    username: "sa"
+    password: ""
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+logging.level:
+  org.hibernate:
+    orm.jdbc.bind: trace
+    SQL: debug
+springdoc:
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+jwt:
+  secret: 4099a46b-39db-4860-a61b-2ae76ea24c43
