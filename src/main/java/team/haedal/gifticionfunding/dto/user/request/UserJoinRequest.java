@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.multipart.MultipartFile;
 import team.haedal.gifticionfunding.entity.user.User;
+import team.haedal.gifticionfunding.entity.user.UserRole;
 
 public record UserJoinRequest(
         String email,
@@ -15,6 +16,9 @@ public record UserJoinRequest(
     public User toEntity(BCryptPasswordEncoder passwordEncoder) {
         return User.builder()
                 .email(email)
+                .point(0L)
+                .userRole(UserRole.ROLE_USER)
+                .birthdate(birthdate)
                 .password(passwordEncoder.encode(password))
                 .nickname(nickname)
                 .birthdate(birthdate)

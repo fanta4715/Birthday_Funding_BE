@@ -17,6 +17,7 @@ import team.haedal.gifticionfunding.dto.user.request.UserJoinRequest;
 import team.haedal.gifticionfunding.dto.user.response.UserJoinResponse;
 import team.haedal.gifticionfunding.entity.user.User;
 import team.haedal.gifticionfunding.repository.user.UserRepository;
+import team.haedal.gifticionfunding.service.user.UserService;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {

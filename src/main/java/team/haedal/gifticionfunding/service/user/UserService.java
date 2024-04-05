@@ -1,4 +1,4 @@
-package team.haedal.gifticionfunding.service;
+package team.haedal.gifticionfunding.service.user;
 
 import jakarta.transaction.Transactional;
 import java.util.Optional;
