@@ -1,0 +1,9 @@
+package team.haedal.gifticionfunding.core.jwt;
+
+public interface JwtVO {
+    String SECRET = "8A609DC2F124DFD1D7C8A472145E01B982F368E3F907E0A90A8C5E0F4D792D568A609DC2F124DFD1D7C8A472145E01B982F368E3F907E0A90A8C5E0F4D792D56"; // HS256 (대칭키)
+    int ACCESS_TOKEN_EXPIRATION_TIME = 1000 * 60 * 60 * 24 * 7; // 일주일
+    String TOKEN_PREFIX = "Bearer ";
+    String HEADER = "Authorization";
+
+}
