@@ -1,22 +1,29 @@
 package team.haedal.gifticionfunding.core.security;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import team.haedal.gifticionfunding.core.jwt.JwtAuthenticationFilter;
 import team.haedal.gifticionfunding.core.jwt.JwtAuthorizationFilter;
+import team.haedal.gifticionfunding.core.security.handler.OAuth2AuthenticationSuccessHandler;
+import team.haedal.gifticionfunding.core.security.oauth.PrincipalOAuth2UserService;
 import team.haedal.gifticionfunding.entity.user.UserRole;
 import team.haedal.gifticionfunding.util.CustomResponseUtil;
 
 @Configuration
+@EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
-
+    private final PrincipalOAuth2UserService principalOAuth2UserService;
+    private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -37,7 +44,9 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(
+
+            HttpSecurity http) throws Exception {
         http.headers(h -> h.frameOptions(f -> f.sameOrigin()));
         http.csrf(cf->cf.disable());
 
@@ -64,6 +73,12 @@ public class SecurityConfig {
                         .anyRequest().permitAll()
         );
 
+        http.oauth2Login(oauth2Login -> oauth2Login
+                .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint
+                        .userService(principalOAuth2UserService)
+                )
+                .successHandler(oAuth2AuthenticationSuccessHandler)
+        );
         return http.build();
     }
 }
