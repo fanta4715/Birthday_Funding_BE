@@ -27,6 +27,9 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false, unique = true, length = 50)
     private String email;
 
+    @Column(length = 100)
+    private String password;
+
     @Column(nullable = false, unique = true, length = 50)
     private String nickname;
 
@@ -38,16 +41,29 @@ public class User extends BaseTimeEntity {
 
     private String profileImageUrl;
 
+    // OAuth를 위해 구성한 추가 필드 2개
+    private String provider;
+    private String providerId;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private UserRole userRole;
+    private UserRole role;
     @Builder
-    private User(String email, String nickname, Long point, LocalDate birthdate, String profileImageUrl, UserRole userRole) {
+    private User(String email, String password, String nickname, Long point, LocalDate birthdate, String profileImageUrl,
+            String provider, String providerId, UserRole userRole) {
         this.email = email;
+        this.password = password;
         this.nickname = nickname;
         this.point = point;
         this.birthdate = birthdate;
         this.profileImageUrl = profileImageUrl;
-        this.userRole = userRole;
+        this.provider = provider;
+        this.providerId = providerId;
+        this.role = userRole;
+    }
+
+    public User(Long id, UserRole role) {
+        this.id = id;
+        this.role = role;
     }
 }
