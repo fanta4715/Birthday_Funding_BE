@@ -1,7 +1,9 @@
 package team.haedal.gifticionfunding.dto.gifticon.request;
 
-public record GifticonPurchaseRequest(
+import jakarta.validation.constraints.NotNull;
 
+public record GifticonPurchaseRequest(
+        @NotNull
         int quantity
 ) {
 }
