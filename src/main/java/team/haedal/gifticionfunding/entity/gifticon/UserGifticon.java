@@ -1,4 +1,4 @@
-package team.haedal.gifticionfunding.entity.user;
+package team.haedal.gifticionfunding.entity.gifticon;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,6 +14,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import team.haedal.gifticionfunding.entity.gifticon.Gifticon;
+import team.haedal.gifticionfunding.entity.user.User;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

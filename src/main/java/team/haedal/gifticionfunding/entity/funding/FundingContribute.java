@@ -12,7 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import team.haedal.gifticionfunding.entity.common.BaseTimeEntity;
 import team.haedal.gifticionfunding.entity.user.User;
-import team.haedal.gifticionfunding.entity.user.UserGifticon;
+import team.haedal.gifticionfunding.entity.gifticon.UserGifticon;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
