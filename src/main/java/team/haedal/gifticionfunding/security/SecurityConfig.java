@@ -1,4 +1,4 @@
-package team.haedal.gifticionfunding.core.security;
+package team.haedal.gifticionfunding.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -11,10 +11,10 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import team.haedal.gifticionfunding.core.jwt.JwtAuthenticationFilter;
-import team.haedal.gifticionfunding.core.jwt.JwtAuthorizationFilter;
-import team.haedal.gifticionfunding.core.security.handler.OAuth2AuthenticationSuccessHandler;
-import team.haedal.gifticionfunding.core.security.oauth.PrincipalOAuth2UserService;
+import team.haedal.gifticionfunding.security.jwt.JwtAuthenticationFilter;
+import team.haedal.gifticionfunding.security.jwt.JwtAuthorizationFilter;
+import team.haedal.gifticionfunding.security.handler.OAuth2AuthenticationSuccessHandler;
+import team.haedal.gifticionfunding.security.oauth.PrincipalOAuth2UserService;
 import team.haedal.gifticionfunding.entity.user.UserRole;
 import team.haedal.gifticionfunding.util.CustomResponseUtil;
 
@@ -70,7 +70,8 @@ public class SecurityConfig {
         http.authorizeHttpRequests(c->
                 c.requestMatchers("/api/s/**").authenticated()
                         .requestMatchers("/api/admin/**").hasRole(UserRole.ROLE_USER.getValue())
-                        .anyRequest().permitAll()
+                        .requestMatchers("/api/user/join").permitAll()
+                        .anyRequest().authenticated()
         );
 
         http.oauth2Login(oauth2Login -> oauth2Login

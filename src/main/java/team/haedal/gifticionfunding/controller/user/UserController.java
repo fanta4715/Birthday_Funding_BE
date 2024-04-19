@@ -1,4 +1,4 @@
-package team.haedal.gifticionfunding.controller;
+package team.haedal.gifticionfunding.controller.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

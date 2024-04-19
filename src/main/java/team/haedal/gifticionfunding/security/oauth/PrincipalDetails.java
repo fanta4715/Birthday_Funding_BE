@@ -1,4 +1,4 @@
-package team.haedal.gifticionfunding.core.security.auth;
+package team.haedal.gifticionfunding.security.oauth;
 
 import java.util.ArrayList;
 import java.util.Collection;

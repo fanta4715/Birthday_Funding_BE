@@ -1,4 +1,4 @@
-package team.haedal.gifticionfunding.core.jwt;
+package team.haedal.gifticionfunding.security.jwt;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -10,7 +10,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import team.haedal.gifticionfunding.core.security.auth.PrincipalDetails;
+import team.haedal.gifticionfunding.security.oauth.PrincipalDetails;
 
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     public JwtAuthorizationFilter(AuthenticationManager authenticationManager) {

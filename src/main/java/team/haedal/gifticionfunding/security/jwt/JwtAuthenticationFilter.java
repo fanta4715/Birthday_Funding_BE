@@ -1,11 +1,9 @@
-package team.haedal.gifticionfunding.core.jwt;
+package team.haedal.gifticionfunding.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -13,7 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import team.haedal.gifticionfunding.core.security.auth.PrincipalDetails;
+import team.haedal.gifticionfunding.security.oauth.PrincipalDetails;
 import team.haedal.gifticionfunding.dto.user.request.UserLoginRequest;
 import team.haedal.gifticionfunding.dto.user.response.UserLoginResponse;
 import team.haedal.gifticionfunding.util.CustomResponseUtil;

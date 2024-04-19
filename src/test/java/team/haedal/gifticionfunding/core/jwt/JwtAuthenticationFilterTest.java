@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import team.haedal.gifticionfunding.dto.user.request.UserLoginRequest;
 import team.haedal.gifticionfunding.dummy.DummyFactory;
 import team.haedal.gifticionfunding.repository.user.UserRepository;
+import team.haedal.gifticionfunding.security.jwt.JwtVO;
 
 @Transactional
 @ActiveProfiles("test")

@@ -1,4 +1,4 @@
-package team.haedal.gifticionfunding.core.security.handler;
+package team.haedal.gifticionfunding.security.handler;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -7,9 +7,9 @@ import java.io.IOException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-import team.haedal.gifticionfunding.core.jwt.JwtProvider;
-import team.haedal.gifticionfunding.core.jwt.JwtVO;
-import team.haedal.gifticionfunding.core.security.auth.PrincipalDetails;
+import team.haedal.gifticionfunding.security.jwt.JwtProvider;
+import team.haedal.gifticionfunding.security.jwt.JwtVO;
+import team.haedal.gifticionfunding.security.oauth.PrincipalDetails;
 import team.haedal.gifticionfunding.dto.user.response.UserLoginResponse;
 import team.haedal.gifticionfunding.util.CustomResponseUtil;
 

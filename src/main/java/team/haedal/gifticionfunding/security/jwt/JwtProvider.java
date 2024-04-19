@@ -1,4 +1,4 @@
-package team.haedal.gifticionfunding.core.jwt;
+package team.haedal.gifticionfunding.security.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -6,7 +6,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
-import team.haedal.gifticionfunding.core.security.auth.PrincipalDetails;
+import team.haedal.gifticionfunding.security.oauth.PrincipalDetails;
 import team.haedal.gifticionfunding.entity.user.User;
 import team.haedal.gifticionfunding.entity.user.UserRole;
 
@@ -16,7 +16,7 @@ public abstract class JwtProvider {
     public static String create(User user) {
         Date expityDate = Date.from(
                 Instant.now()
-                        .plus(JwtVO.ACCESS_TOKEN_EXPIRATION_TIME, ChronoUnit.MILLIS));
+                        .plus(JwtVO.ACCESS_TOKEN_EXPIRATION_TIME, ChronoUnit.HOURS));
 
         String jwtToken = Jwts.builder().signWith(SignatureAlgorithm.HS512, JwtVO.SECRET)
                 .setSubject(user.getId().toString()) //.claim("key",value)식으로 토큰에 설정 추가할 수 있음.

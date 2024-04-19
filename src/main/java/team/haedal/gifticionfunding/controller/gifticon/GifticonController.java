@@ -1,4 +1,4 @@
-package team.haedal.gifticionfunding.controller;
+package team.haedal.gifticionfunding.controller.gifticon;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import team.haedal.gifticionfunding.core.security.auth.PrincipalDetails;
+import team.haedal.gifticionfunding.security.oauth.PrincipalDetails;
 import team.haedal.gifticionfunding.dto.common.PagingResponse;
 import team.haedal.gifticionfunding.dto.common.ResponseDto;
 import team.haedal.gifticionfunding.dto.gifticon.request.GifticonPurchaseRequest;

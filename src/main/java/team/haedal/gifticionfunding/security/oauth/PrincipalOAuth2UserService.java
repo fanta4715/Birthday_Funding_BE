@@ -1,19 +1,17 @@
-package team.haedal.gifticionfunding.core.security.oauth;
+package team.haedal.gifticionfunding.security.oauth;
 
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import team.haedal.gifticionfunding.core.security.auth.PrincipalDetails;
-import team.haedal.gifticionfunding.core.security.oauth.provider.KakaoUserInfo;
-import team.haedal.gifticionfunding.core.security.oauth.provider.OAuth2UserInfo;
+import team.haedal.gifticionfunding.security.oauth.provider.KakaoUserInfo;
+import team.haedal.gifticionfunding.security.oauth.provider.OAuth2UserInfo;
 import team.haedal.gifticionfunding.entity.user.User;
 import team.haedal.gifticionfunding.entity.user.UserRole;
 import team.haedal.gifticionfunding.repository.user.UserRepository;

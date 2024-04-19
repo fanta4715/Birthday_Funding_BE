@@ -1,14 +1,14 @@
-package team.haedal.gifticionfunding.core.security.auth;
+package team.haedal.gifticionfunding.security.oauth;
 
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import team.haedal.gifticionfunding.entity.user.User;
 import team.haedal.gifticionfunding.repository.user.UserRepository;
+import team.haedal.gifticionfunding.security.oauth.PrincipalDetails;
 
 @Service
 @RequiredArgsConstructor

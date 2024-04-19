@@ -4,7 +4,6 @@ package team.haedal.gifticionfunding.core.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +14,12 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
-import team.haedal.gifticionfunding.core.security.auth.PrincipalDetails;
+import team.haedal.gifticionfunding.security.oauth.PrincipalDetails;
 import team.haedal.gifticionfunding.dummy.DummyFactory;
 import team.haedal.gifticionfunding.entity.user.User;
 import team.haedal.gifticionfunding.repository.user.UserRepository;
+import team.haedal.gifticionfunding.security.jwt.JwtProvider;
+import team.haedal.gifticionfunding.security.jwt.JwtVO;
 
 @Transactional
 @ActiveProfiles("test")

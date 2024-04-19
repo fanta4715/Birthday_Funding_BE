@@ -1,4 +1,4 @@
-package team.haedal.gifticionfunding.core.security.oauth.provider;
+package team.haedal.gifticionfunding.security.oauth.provider;
 
 public interface OAuth2UserInfo {
     String getProviderId();
