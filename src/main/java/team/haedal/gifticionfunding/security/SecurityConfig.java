@@ -14,7 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import team.haedal.gifticionfunding.security.jwt.JwtAuthenticationFilter;
 import team.haedal.gifticionfunding.security.jwt.JwtAuthorizationFilter;
 import team.haedal.gifticionfunding.security.handler.OAuth2AuthenticationSuccessHandler;
-import team.haedal.gifticionfunding.security.oauth.PrincipalOAuth2UserService;
+import team.haedal.gifticionfunding.security.jwt.JwtProvider;
 import team.haedal.gifticionfunding.entity.user.UserRole;
 import team.haedal.gifticionfunding.util.CustomResponseUtil;
 
@@ -22,8 +22,7 @@ import team.haedal.gifticionfunding.util.CustomResponseUtil;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final PrincipalOAuth2UserService principalOAuth2UserService;
-    private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
+    private final JwtProvider jwtProvider;
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -34,7 +33,7 @@ public class SecurityConfig {
         public void configure(HttpSecurity builder) throws Exception {
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
             builder.addFilter(new JwtAuthenticationFilter(authenticationManager));
-            builder.addFilter(new JwtAuthorizationFilter(authenticationManager));
+            builder.addFilter(new JwtAuthorizationFilter(authenticationManager, jwtProvider));
             super.configure(builder);
         }
 
@@ -74,12 +73,6 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
         );
 
-        http.oauth2Login(oauth2Login -> oauth2Login
-                .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint
-                        .userService(principalOAuth2UserService)
-                )
-                .successHandler(oAuth2AuthenticationSuccessHandler)
-        );
         return http.build();
     }
 }

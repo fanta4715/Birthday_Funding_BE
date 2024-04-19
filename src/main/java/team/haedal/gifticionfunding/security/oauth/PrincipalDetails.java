@@ -3,78 +3,53 @@ package team.haedal.gifticionfunding.security.oauth;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import team.haedal.gifticionfunding.entity.user.User;
+import team.haedal.gifticionfunding.entity.user.UserRole;
 
-public class PrincipalDetails implements UserDetails, OAuth2User {
-    private User user;
-    private Map<String, Object> attributes;
+@Getter
+@RequiredArgsConstructor
+public class PrincipalDetails implements UserDetails {
+    private final Long id;
+    private final UserRole role;
 
-    // 일반 시큐리티 로그인시 사용
-    public PrincipalDetails(User user) {
-        this.user = user;
-    }
 
-    // OAuth2.0 로그인시 사용
-    public PrincipalDetails(User user, Map<String, Object> attributes) {
-        this.user = user;
-        this.attributes = attributes;
-    }
-
-    public User getUser() {
-        return user;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return null;
     }
 
     @Override
     public String getUsername() {
-        return user.getEmail();
+        return null;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return false;
     }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<GrantedAuthority> collet = new ArrayList<GrantedAuthority>();
-        collet.add(()->{ return user.getRole().name();});
-        return collet;
-    }
-
-    // 리소스 서버로 부터 받는 회원정보
-    @Override
-    public Map<String, Object> getAttributes() {
-        return attributes;
-    }
-
-    // User의 PrimaryKey
-    @Override
-    public String getName() {
-        return user.getId()+"";
-    }
-
-
 }
