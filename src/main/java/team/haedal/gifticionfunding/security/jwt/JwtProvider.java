@@ -8,6 +8,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import team.haedal.gifticionfunding.dto.common.JwtTokensDto;
 import team.haedal.gifticionfunding.security.oauth.PrincipalDetails;
 import team.haedal.gifticionfunding.entity.user.User;
 import team.haedal.gifticionfunding.entity.user.UserRole;
@@ -18,21 +19,26 @@ public class JwtProvider {
     private String SECRET_KEY;
 
     // 토큰 생성
-    public String generateAccessToken(Long userId, UserRole role) {
-
+    public JwtTokensDto generateAccessToken(Long userId, UserRole role) {
         Claims claims = Jwts.claims();
+
         claims.put("userId", userId.toString());
-        claims.put("role", role.getValue());
+        claims.put("role", role.getName());
+
         Date expityDate = Date.from(
                 Instant.now()
                         .plus(JwtVO.ACCESS_TOKEN_EXPIRATION_TIME, ChronoUnit.MILLIS));
 
-        return Jwts.builder().signWith(SignatureAlgorithm.HS512, SECRET_KEY)
+        String accessToken = Jwts.builder().signWith(SignatureAlgorithm.HS512, SECRET_KEY)
                 .setClaims(claims)
                 .setIssuer("Gifticion Funding")
                 .setIssuedAt(new Date())
                 .setExpiration(expityDate)
                 .compact();
+
+        return JwtTokensDto.builder()
+                .accessToken(accessToken)
+                .build();
     }
 
     // 토큰 검증 (return 되는 LoginUser 객체를 강제로 시큐리티 세션에 직접 주입할 예정)

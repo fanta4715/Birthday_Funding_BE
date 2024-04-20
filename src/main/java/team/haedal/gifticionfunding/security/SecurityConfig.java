@@ -67,6 +67,7 @@ public class SecurityConfig {
                 c.requestMatchers("/api/s/**").authenticated()
                         .requestMatchers("/api/admin/**").hasRole(UserRole.ROLE_USER.getName())
                         .requestMatchers("/api/user/join").permitAll()
+                        .requestMatchers("/login/**").permitAll()
                         .anyRequest().authenticated()
         );
 
