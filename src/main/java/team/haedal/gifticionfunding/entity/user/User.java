@@ -50,7 +50,7 @@ public class User extends BaseTimeEntity {
     private UserRole role;
     @Builder
     private User(String email, String password, String nickname, Long point, LocalDate birthdate, String profileImageUrl,
-            String provider, String providerId, UserRole userRole) {
+            String provider, String providerId, UserRole role) {
         this.email = email;
         this.password = password;
         this.nickname = nickname;
@@ -59,7 +59,7 @@ public class User extends BaseTimeEntity {
         this.profileImageUrl = profileImageUrl;
         this.provider = provider;
         this.providerId = providerId;
-        this.role = userRole;
+        this.role = role;
     }
 
     public User(Long id, UserRole role) {

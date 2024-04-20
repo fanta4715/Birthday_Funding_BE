@@ -30,7 +30,7 @@ public record UserJoinRequest(
         return User.builder()
                 .email(email)
                 .point(0L)
-                .userRole(UserRole.ROLE_USER)
+                .role(UserRole.ROLE_USER)
                 .birthdate(birthdate)
                 .password(passwordEncoder.encode(password))
                 .nickname(nickname)
