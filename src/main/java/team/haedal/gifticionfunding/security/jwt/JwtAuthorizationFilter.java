@@ -1,20 +1,29 @@
 package team.haedal.gifticionfunding.security.jwt;
 
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import team.haedal.gifticionfunding.entity.user.User;
+import team.haedal.gifticionfunding.entity.user.UserRole;
 import team.haedal.gifticionfunding.security.oauth.PrincipalDetails;
 
+
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
-    public JwtAuthorizationFilter(AuthenticationManager authenticationManager) {
+    private final JwtProvider JwtProvider;
+    public JwtAuthorizationFilter(AuthenticationManager authenticationManager, JwtProvider jwtProvider) {
         super(authenticationManager);
+        this.JwtProvider = jwtProvider;
     }
 
     // JWT 토큰 헤더를 추가하지 않아도 해당 필터는 통과는 할 수 있지만, 결국 시큐리티단에서 세션 값 검증에 실패함.
@@ -25,10 +34,12 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         if (isHeaderVerify(request, response)) {
             String token = request.getHeader(JwtVO.HEADER).replace(JwtVO.TOKEN_PREFIX, "");
             JwtProvider.validateToken(token);
-            PrincipalDetails principalDetails = JwtProvider.extractUserDetailsFromToken(token);
-            // 임시 세션 (UserDetails 타입 or username)
-            Authentication authentication = new UsernamePasswordAuthenticationToken(principalDetails, null,
-                    principalDetails.getAuthorities()); // id, role 만 존재
+
+            Claims claims = JwtProvider.extractClaimsFromToken(token);
+            PrincipalDetails userDetails = new PrincipalDetails(claims.get("id", Long.class), claims.get("role", UserRole.class));
+            Authentication authentication = new UsernamePasswordAuthenticationToken(
+                    userDetails, null, userDetails.getAuthorities()); // id, role 만 존재
+
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         chain.doFilter(request, response);

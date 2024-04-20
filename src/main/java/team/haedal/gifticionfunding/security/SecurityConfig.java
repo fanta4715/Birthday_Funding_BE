@@ -11,11 +11,9 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import team.haedal.gifticionfunding.security.jwt.JwtAuthenticationFilter;
-import team.haedal.gifticionfunding.security.jwt.JwtAuthorizationFilter;
-import team.haedal.gifticionfunding.security.handler.OAuth2AuthenticationSuccessHandler;
-import team.haedal.gifticionfunding.security.jwt.JwtProvider;
 import team.haedal.gifticionfunding.entity.user.UserRole;
+import team.haedal.gifticionfunding.security.jwt.JwtAuthorizationFilter;
+import team.haedal.gifticionfunding.security.jwt.JwtProvider;
 import team.haedal.gifticionfunding.util.CustomResponseUtil;
 
 @Configuration
@@ -32,7 +30,6 @@ public class SecurityConfig {
         @Override
         public void configure(HttpSecurity builder) throws Exception {
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
-            builder.addFilter(new JwtAuthenticationFilter(authenticationManager));
             builder.addFilter(new JwtAuthorizationFilter(authenticationManager, jwtProvider));
             super.configure(builder);
         }
@@ -68,7 +65,7 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(c->
                 c.requestMatchers("/api/s/**").authenticated()
-                        .requestMatchers("/api/admin/**").hasRole(UserRole.ROLE_USER.getValue())
+                        .requestMatchers("/api/admin/**").hasRole(UserRole.ROLE_USER.getName())
                         .requestMatchers("/api/user/join").permitAll()
                         .anyRequest().authenticated()
         );
