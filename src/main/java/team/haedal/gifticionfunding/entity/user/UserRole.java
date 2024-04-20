@@ -11,4 +11,13 @@ public enum UserRole {
 
     private final String name;
     private final String securityName;
+
+    public static UserRole of(String name) {
+        for (UserRole role : values()) {
+            if (role.name.equals(name)) {
+                return role;
+            }
+        }
+        throw new IllegalArgumentException("No such role: " + name);
+    }
 }
