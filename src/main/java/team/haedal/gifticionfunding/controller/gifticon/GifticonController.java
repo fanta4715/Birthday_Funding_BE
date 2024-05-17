@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import team.haedal.gifticionfunding.annotation.UserId;
 import team.haedal.gifticionfunding.security.oauth.PrincipalDetails;
 import team.haedal.gifticionfunding.dto.common.PagingResponse;
 import team.haedal.gifticionfunding.dto.common.ResponseDto;
@@ -23,16 +24,21 @@ import team.haedal.gifticionfunding.entity.user.User;
 import team.haedal.gifticionfunding.service.gifticon.GifticonService;
 
 @RestController
-@RequestMapping("/api/gifticon")
+@RequestMapping("/api/v1/gifticons")
 @RequiredArgsConstructor
 public class GifticonController {
     private final GifticonService gifticonService;
 
-    @GetMapping()
+    @GetMapping("")
     public ResponseEntity<?> getGifticonPaging(
-            @RequestParam int page,
-            @RequestParam int size) {
-        PagingResponse<GifticonDto> gifticonPaging = gifticonService.getGifticonPaging(page, size);
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(value = "search", required = false) String search,
+            @RequestParam(value = "category", required = false) String category,
+            @RequestParam(value = "criteria", defaultValue = "createdDate") String criteria,
+            @RequestParam(value = "sort", defaultValue = "DESC") String sort
+    ) {
+        PagingResponse<GifticonDto> gifticonPaging = gifticonService.getGifticonPaging(page, size, search, criteria, sort, category);
 
         return new ResponseEntity<>(
                 new ResponseDto<>(1, "기프티콘 목록 조회 성공", gifticonPaging),
@@ -53,12 +59,11 @@ public class GifticonController {
 
     @PostMapping("/purchase/{gifticonId}")
     public ResponseEntity<?> purchaseGifticon(
-            Authentication authentication,
             @PathVariable Long gifticonId,
-            @RequestBody GifticonPurchaseRequest gifticonPurchaseRequest
+            @RequestBody GifticonPurchaseRequest gifticonPurchaseRequest,
+            @UserId Long userId
     ) {
-        User user = ((PrincipalDetails)authentication.getPrincipal()).getUser();
-        List<UserGifticonDto> purchasedGifticons = gifticonService.purchaseGifticon(gifticonId, gifticonPurchaseRequest, user);
+        List<UserGifticonDto> purchasedGifticons = gifticonService.purchaseGifticon(gifticonId, gifticonPurchaseRequest, userId);
 
         return new ResponseEntity<>(
                 new ResponseDto<>(1, "기프티콘 구매 성공", purchasedGifticons),
