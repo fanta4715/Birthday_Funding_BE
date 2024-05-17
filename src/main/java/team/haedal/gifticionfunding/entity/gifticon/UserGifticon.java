@@ -13,13 +13,14 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import team.haedal.gifticionfunding.entity.common.BaseTimeEntity;
 import team.haedal.gifticionfunding.entity.gifticon.Gifticon;
 import team.haedal.gifticionfunding.entity.user.User;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class UserGifticon {
+public class UserGifticon extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
