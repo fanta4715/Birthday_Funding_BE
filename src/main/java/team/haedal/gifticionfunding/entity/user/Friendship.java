@@ -20,16 +20,16 @@ public class Friendship {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user1_id")
-    private User user1;
+    @JoinColumn(name = "from_user_id")
+    private User fromUser;
 
     @ManyToOne
-    @JoinColumn(name = "user2_id")
-    private User user2;
+    @JoinColumn(name = "to_user_id")
+    private User toUser;
 
     @Builder
-    private Friendship(User user1, User user2) {
-        this.user1 = user1;
-        this.user2 = user2;
+    private Friendship(User fromUser, User toUser) {
+        this.fromUser = fromUser;
+        this.toUser = toUser;
     }
 }
