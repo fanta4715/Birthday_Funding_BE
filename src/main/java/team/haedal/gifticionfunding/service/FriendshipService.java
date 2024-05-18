@@ -23,7 +23,7 @@ public class FriendshipService {
             throw new CustomApiException("page는 0이상, size는 1이상이어야 합니다.");
         }
 
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        Pageable pageable = PageRequest.of(page, size, Sort.by("nickname").ascending());
 
         // 친구 목록 조회
         if (depth == 1) {
