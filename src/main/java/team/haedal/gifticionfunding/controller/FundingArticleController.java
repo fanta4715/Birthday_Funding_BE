@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import team.haedal.gifticionfunding.annotation.UserId;
+import team.haedal.gifticionfunding.dto.FundingArticleDetailDto;
 import team.haedal.gifticionfunding.dto.FundingArticleDto;
 import team.haedal.gifticionfunding.dto.common.PagingResponse;
 import team.haedal.gifticionfunding.dto.common.ResponseDto;
@@ -31,5 +32,15 @@ public class FundingArticleController {
                 HttpStatus.OK
         );
     }
-    
+
+    @GetMapping("/v1/fundings/articles/{articleId}")
+    public ResponseEntity<?> getFundingArticle(
+            @RequestParam(value = "articleId") Long articleId
+    ) {
+        FundingArticleDetailDto fundingArticleDto = fundingArticleService.getFundingArticle(articleId);
+        return new ResponseEntity<>(
+                new ResponseDto<>(1, "펀딩 게시글 조회 성공", fundingArticleDto),
+                HttpStatus.OK
+        );
+    }
 }
