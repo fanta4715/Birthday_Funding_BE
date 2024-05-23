@@ -20,7 +20,7 @@ public interface FundingArticleRepository extends JpaRepository<FundingArticle, 
                     "    )" +
                     ")"
     )
-    Page<FundingArticle> findAllByFriendOfFriend(
+    Page<FundingArticle> findAllWithAuthorAndGifticonsByFriendOfFriend(
             @Param("userId") Long userId,
             Pageable pageable);
 }

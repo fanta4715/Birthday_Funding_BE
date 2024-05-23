@@ -29,7 +29,7 @@ public class FundingArticleService {
         Pageable pageable = PageRequest.of(page, size, Sort.by("endAt").ascending());
 
         // 친구 depth2 범위의 게시글 조회
-        Page<FundingArticle> fundingArticlePage = fundingArticleRepository.findAllByFriendOfFriend(userId, pageable);
+        Page<FundingArticle> fundingArticlePage = fundingArticleRepository.findAllWithAuthorAndGifticonsByFriendOfFriend(userId, pageable);
 
         // FundingArticleDto로 변환
         List<FundingArticleDto> fundingArticleDtoList = fundingArticlePage.getContent().stream()
