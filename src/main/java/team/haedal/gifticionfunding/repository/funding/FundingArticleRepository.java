@@ -28,4 +28,7 @@ public interface FundingArticleRepository extends JpaRepository<FundingArticle, 
 
     @EntityGraph(attributePaths = {"author", "gifticons"})
     Optional<FundingArticle> findAllWithAuthorAndGifticonsById(Long articleId);
+
+    @EntityGraph(attributePaths = {"author"})
+    Optional<FundingArticle> findWithAuthorById(Long articleId);
 }

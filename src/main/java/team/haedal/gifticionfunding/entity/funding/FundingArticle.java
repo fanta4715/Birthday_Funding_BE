@@ -17,12 +17,14 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 import team.haedal.gifticionfunding.entity.common.BaseTimeEntity;
 import team.haedal.gifticionfunding.entity.user.User;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@DynamicUpdate
 public class FundingArticle extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,5 +51,9 @@ public class FundingArticle extends BaseTimeEntity {
         this.title = title;
         this.content = content;
         this.endAt = endAt;
+    }
+
+    public void updateExpiration(int maxExtensionDate) {
+        this.endAt = this.endAt.plusDays(maxExtensionDate);
     }
 }

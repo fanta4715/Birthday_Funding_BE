@@ -22,6 +22,8 @@ import team.haedal.gifticionfunding.repository.funding.FundingContributeReposito
 @Service
 @RequiredArgsConstructor
 public class FundingArticleService {
+    private static final int MAX_EXTENSION_DATE = 3;
+
     private final FundingArticleRepository fundingArticleRepository;
     private final FundingContributeRepository fundingContributeRepository;
 
@@ -91,5 +93,17 @@ public class FundingArticleService {
                 );
 
         return FundingArticleDetailDto.of(fundingArticle, fundAmountMap, numberOfSupportersMap);
+    }
+
+    @Transactional
+    public void updateFundingArticleExpiration(Long userId, Long articleId) {
+        FundingArticle fundingArticle = fundingArticleRepository.findWithAuthorById(articleId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 펀딩 게시글이 존재하지 않습니다."));
+
+        if (!fundingArticle.getAuthor().getId().equals(userId)) {
+            throw new IllegalArgumentException("해당 펀딩 게시글의 작성자가 아닙니다.");
+        }
+
+        fundingArticle.updateExpiration(MAX_EXTENSION_DATE);
     }
 }
