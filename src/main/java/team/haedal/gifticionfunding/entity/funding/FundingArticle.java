@@ -3,6 +3,8 @@ package team.haedal.gifticionfunding.entity.funding;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,6 +21,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 import team.haedal.gifticionfunding.entity.common.BaseTimeEntity;
+import team.haedal.gifticionfunding.entity.type.EFundingArticleStatus;
 import team.haedal.gifticionfunding.entity.user.User;
 
 @Getter
@@ -43,6 +46,10 @@ public class FundingArticle extends BaseTimeEntity {
     @Column(nullable = false)
     private LocalDateTime endAt;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private EFundingArticleStatus status;
+
     @OneToMany(mappedBy = "fundingArticle", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<FundingArticleGifticon> gifticons = new ArrayList<>();
     @Builder
@@ -51,6 +58,8 @@ public class FundingArticle extends BaseTimeEntity {
         this.title = title;
         this.content = content;
         this.endAt = endAt;
+
+        this.status = EFundingArticleStatus.PROCESSING;
     }
 
     public void updateExpiration(int maxExtensionDate) {
