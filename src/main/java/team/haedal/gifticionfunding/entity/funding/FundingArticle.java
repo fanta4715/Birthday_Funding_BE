@@ -1,5 +1,6 @@
 package team.haedal.gifticionfunding.entity.funding;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -40,7 +41,7 @@ public class FundingArticle extends BaseTimeEntity {
     @Column(nullable = false)
     private LocalDateTime endAt;
 
-    @OneToMany(mappedBy = "fundingArticle", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "fundingArticle", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<FundingArticleGifticon> gifticons = new ArrayList<>();
     @Builder
     private FundingArticle(User author, String title, String content, LocalDateTime endAt) {
