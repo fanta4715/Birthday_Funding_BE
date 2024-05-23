@@ -1,6 +1,7 @@
 package team.haedal.gifticionfunding.entity.funding;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -11,8 +12,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import team.haedal.gifticionfunding.entity.common.BaseTimeEntity;
-import team.haedal.gifticionfunding.entity.user.User;
 import team.haedal.gifticionfunding.entity.gifticon.UserGifticon;
+import team.haedal.gifticionfunding.entity.user.User;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -24,23 +25,23 @@ public class FundingContribute extends BaseTimeEntity {
 
     private Long point;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User contributor;
 
-    @ManyToOne
-    @JoinColumn(name = "funding_article_id")
-    private FundingArticle fundingArticle;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "funding_article_giftcion_id")
+    private FundingArticleGifticon fundingArticleGifticon;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_gifticon_id")
     private UserGifticon userGifticon;
 
     @Builder
-    private FundingContribute(Long point, User contributor, FundingArticle fundingArticle, UserGifticon userGifticon) {
+    private FundingContribute(Long point, User contributor, FundingArticleGifticon fundingArticleGifticon, UserGifticon userGifticon) {
         this.point = point;
         this.contributor = contributor;
-        this.fundingArticle = fundingArticle;
+        this.fundingArticleGifticon = fundingArticleGifticon;
         this.userGifticon = userGifticon;
     }
 }
