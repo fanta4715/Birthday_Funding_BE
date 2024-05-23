@@ -14,10 +14,16 @@ import team.haedal.gifticionfunding.dto.FundingArticleDetailDto;
 import team.haedal.gifticionfunding.dto.FundingArticleDto;
 import team.haedal.gifticionfunding.dto.common.PagingResponse;
 import team.haedal.gifticionfunding.entity.funding.FundingArticle;
+import team.haedal.gifticionfunding.entity.funding.FundingArticleGifticon;
+import team.haedal.gifticionfunding.entity.gifticon.UserGifticon;
+import team.haedal.gifticionfunding.entity.type.EFundingArticleGifticonStatus;
+import team.haedal.gifticionfunding.entity.type.EFundingArticleStatus;
+import team.haedal.gifticionfunding.repository.funding.FundingArticleGifticonRepository;
 import team.haedal.gifticionfunding.repository.funding.FundingArticleRepository;
 import team.haedal.gifticionfunding.repository.funding.FundingContributeRepository;
 import team.haedal.gifticionfunding.repository.funding.FundingContributeRepository.FundingContributeAmount;
 import team.haedal.gifticionfunding.repository.funding.FundingContributeRepository.FundingContributerNumber;
+import team.haedal.gifticionfunding.repository.user.UserGifticonRepository;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +32,8 @@ public class FundingArticleService {
 
     private final FundingArticleRepository fundingArticleRepository;
     private final FundingContributeRepository fundingContributeRepository;
-
+    private final FundingArticleGifticonRepository fundingArticleGifticonRepository;
+    private final UserGifticonRepository userGifticonRepository;
     /**
      * 친구 depth2 범위의 펀딩 게시글을 목록 조회한다.
      *
@@ -105,5 +112,35 @@ public class FundingArticleService {
         }
 
         fundingArticle.updateExpiration(MAX_EXTENSION_DATE);
+    }
+
+    @Transactional
+    public void receiveFunding(Long userId, Long fundingArticleGifticonId) {
+        FundingArticleGifticon fundingArticleGifticon = fundingArticleGifticonRepository.findWithArticleAndAuthorById(fundingArticleGifticonId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 펀딩 게시글 기프티콘이 존재하지 않습니다."));
+
+        if (!fundingArticleGifticon.getFundingArticle().getAuthor().getId().equals(userId)) {
+            throw new IllegalArgumentException("해당 펀딩 게시글의 작성자가 아닙니다.");
+        }
+
+        // userGifticon 생성
+        UserGifticon receivedGifticon = UserGifticon.builder()
+                .buyer(fundingArticleGifticon.getFundingArticle().getAuthor())
+                .owner(fundingArticleGifticon.getFundingArticle().getAuthor())
+                .gifticon(fundingArticleGifticon.getGifticon())
+                .build();
+
+        // fundingArticleGifticon 상태 변경
+        fundingArticleGifticon.updateStatus(EFundingArticleGifticonStatus.FINISH_SUCCESS);
+
+        // 마지막 후원까지 종료되었을 경우, 펀딩 게시글 상태 변경
+        int numberOfReceivedGifticons = (int) fundingArticleGifticon.getFundingArticle().getGifticons().stream()
+                .filter(fundingArticleGifticon1 -> fundingArticleGifticon1.getStatus().equals(EFundingArticleGifticonStatus.FINISH_SUCCESS))
+                .count();
+        if (numberOfReceivedGifticons == fundingArticleGifticon.getFundingArticle().getGifticons().size()) {
+            fundingArticleGifticon.getFundingArticle().updateStatus(EFundingArticleStatus.FINISH);
+        }
+        // userGifticon 저장 및 flush
+        userGifticonRepository.saveAndFlush(receivedGifticon);
     }
 }

@@ -58,5 +58,15 @@ public class FundingArticleController {
         );
     }
 
-    
+    @PostMapping("/v1/fundings/articles/gifticons/{fundingArticleGifticonId}/success")
+    public ResponseEntity<?> receiveFunding(
+            @UserId Long userId,
+            @RequestParam(value = "fundingArticleGifticonId") Long fundingArticleGifticonId
+    ) {
+        fundingArticleService.receiveFunding(userId, fundingArticleGifticonId);
+        return new ResponseEntity<>(
+                new ResponseDto<>(1, "펀딩 게시글 성공 처리 성공", null),
+                HttpStatus.OK
+        );
+    }
 }

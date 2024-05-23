@@ -65,4 +65,8 @@ public class FundingArticle extends BaseTimeEntity {
     public void updateExpiration(int maxExtensionDate) {
         this.endAt = this.endAt.plusDays(maxExtensionDate);
     }
+
+    public void updateStatus(EFundingArticleStatus status) {
+        this.status = status;
+    }
 }

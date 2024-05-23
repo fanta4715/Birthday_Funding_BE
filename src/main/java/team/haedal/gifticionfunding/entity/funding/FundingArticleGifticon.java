@@ -42,4 +42,8 @@ public class FundingArticleGifticon {
         this.gifticon = gifticon;
         this.fundingArticle = fundingArticle;
     }
+
+    public void updateStatus(EFundingArticleGifticonStatus eFundingArticleGifticonStatus) {
+        this.status = eFundingArticleGifticonStatus;
+    }
 }
