@@ -23,4 +23,14 @@ public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
             @Param("userId") Long userId,
             Pageable pageable
     );
+
+    @Query("SELECT CASE WHEN COUNT(u) > 0 THEN TRUE ELSE FALSE END FROM User u " +
+            "WHERE u.id = :targetUserId AND u.id IN (" +
+            "    SELECT f2.toUser.id FROM Friendship f1 " +
+            "    JOIN Friendship f2 ON f1.toUser.id = f2.fromUser.id " +
+            "    WHERE f1.fromUser.id = :userId)")
+    Boolean existsUserInFriendsOfFriends(
+            @Param("userId") Long userId,
+            @Param("targetUserId") Long targetUserId
+    );
 }

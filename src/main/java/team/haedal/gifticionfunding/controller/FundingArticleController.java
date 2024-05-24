@@ -37,9 +37,10 @@ public class FundingArticleController {
 
     @GetMapping("/v1/fundings/articles/{articleId}")
     public ResponseEntity<?> getFundingArticle(
+            @UserId Long userId,
             @RequestParam(value = "articleId") Long articleId
     ) {
-        FundingArticleDetailDto fundingArticleDto = fundingArticleService.getFundingArticle(articleId);
+        FundingArticleDetailDto fundingArticleDto = fundingArticleService.getFundingArticle(userId, articleId);
         return new ResponseEntity<>(
                 new ResponseDto<>(1, "펀딩 게시글 조회 성공", fundingArticleDto),
                 HttpStatus.OK

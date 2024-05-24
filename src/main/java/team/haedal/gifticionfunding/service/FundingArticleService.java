@@ -23,6 +23,7 @@ import team.haedal.gifticionfunding.repository.funding.FundingArticleRepository;
 import team.haedal.gifticionfunding.repository.funding.FundingContributeRepository;
 import team.haedal.gifticionfunding.repository.funding.FundingContributeRepository.FundingContributeAmount;
 import team.haedal.gifticionfunding.repository.funding.FundingContributeRepository.FundingContributerNumber;
+import team.haedal.gifticionfunding.repository.user.FriendshipRepository;
 import team.haedal.gifticionfunding.repository.user.UserGifticonRepository;
 
 @Service
@@ -34,6 +35,7 @@ public class FundingArticleService {
     private final FundingContributeRepository fundingContributeRepository;
     private final FundingArticleGifticonRepository fundingArticleGifticonRepository;
     private final UserGifticonRepository userGifticonRepository;
+    private final FriendshipRepository friendshipRepository;
     /**
      * 친구 depth2 범위의 펀딩 게시글을 목록 조회한다.
      *
@@ -62,14 +64,21 @@ public class FundingArticleService {
 
     /**
      * 펀딩 게시글 상세 조회. 해당 게시글의 후원 금액과 후원자 수를 함께 조회한다.
+     *
+     * @param userId
      * @param articleId
      * @return
      */
     @Transactional(readOnly = true)
-    public FundingArticleDetailDto getFundingArticle(Long articleId) {
+    public FundingArticleDetailDto getFundingArticle(Long userId, Long articleId) {
         // 펀딩 게시글 조회
         FundingArticle fundingArticle = fundingArticleRepository.findAllWithAuthorAndGifticonsById(articleId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 펀딩 게시글이 존재하지 않습니다."));
+
+        Long authorId = fundingArticle.getAuthor().getId();
+        if (!friendshipRepository.existsUserInFriendsOfFriends(userId, authorId)) {
+            throw new IllegalArgumentException("친구 depth 2 범위의 펀딩 게시글이 아닙니다.");
+        }
 
         List<Long> fundingArticleGifticonIds = fundingArticle.getGifticons().stream()
                 .map(fundingArticleGifticon -> fundingArticleGifticon.getId())
