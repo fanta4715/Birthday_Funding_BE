@@ -1,11 +1,7 @@
 package team.haedal.gifticionfunding.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
 import team.haedal.gifticionfunding.entity.funding.FundingArticleGifticon;
 
-@Getter
 public record FundingArticleGifticonDto(
         String gifticonName,
         Integer price,

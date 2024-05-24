@@ -14,7 +14,7 @@ public class DummyFactory {
                 .email(email)
                 .password(passwordEncoder.encode(password))
                 .point(0L)
-                .userRole(UserRole.ROLE_USER)
+                .role(UserRole.ROLE_USER)
                 .nickname(nickname)
                 .birthdate(LocalDate.of(1999, 1, 1))
                 .build();
@@ -26,7 +26,7 @@ public class DummyFactory {
                 .email(email)
                 .password(passwordEncoder.encode(password))
                 .point(0L)
-                .userRole(UserRole.ROLE_ADMIN)
+                .role(UserRole.ROLE_ADMIN)
                 .nickname(nickname)
                 .birthdate(LocalDate.of(1999, 1, 1))
                 .build();

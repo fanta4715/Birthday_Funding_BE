@@ -30,6 +30,8 @@ class JwtAuthorizationFilterTest extends DummyFactory {
     private MockMvc mvc;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private JwtProvider jwtProvider;
 
     @Test
     @DisplayName("관리자가 아닌 사용자가 접근하면 403을 반환한다.")
@@ -38,7 +40,8 @@ class JwtAuthorizationFilterTest extends DummyFactory {
         User user = newUser("jae@naver.com", "jaehyeon1114", "1234");
 
         User savedUser = userRepository.save(user);
-        String jwtToken = JwtProvider.create(savedUser);
+        String jwtToken = jwtProvider.generateAccessToken(savedUser.getId(), savedUser.getRole())
+                .accessToken();
         System.out.println("테스트 : " + jwtToken);
 
         //when
@@ -53,8 +56,9 @@ class JwtAuthorizationFilterTest extends DummyFactory {
     void authorization_admin_success_test() throws Exception {
         //given
         User admin = newUser("jae@naver.com", "jaehyeon1114", "1234");
-        PrincipalDetails loginAdmin = new PrincipalDetails(admin);
-        String jwtToken = JwtProvider.create(admin);
+        PrincipalDetails loginAdmin = new PrincipalDetails(1L, admin.getRole());
+        String jwtToken = jwtProvider.generateAccessToken(1L, loginAdmin.getRole())
+                .accessToken();;
         System.out.println("테스트 : " + jwtToken);
 
         //when

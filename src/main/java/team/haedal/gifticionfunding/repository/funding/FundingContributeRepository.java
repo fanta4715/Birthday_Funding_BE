@@ -16,7 +16,7 @@ public interface FundingContributeRepository extends JpaRepository<FundingContri
             "GROUP BY fc.fundingArticleGifticon.id"
     )
     List<FundingContributerNumber> countByFundingArticleGifticonIdIn(
-            @Param("fundingArticleIds") List<Long> fundingArticleGifticonIds
+            @Param("fundingArticleGifticonIds") List<Long> fundingArticleGifticonIds
     );
 
     @Query(
@@ -30,7 +30,7 @@ public interface FundingContributeRepository extends JpaRepository<FundingContri
             "GROUP BY fc.fundingArticleGifticon.id"
     )
     List<FundingContributeAmount> sumByFundingArticleGifticonIdIn(
-            @Param("fundingArticleIds") List<Long> fundingArticleGifticonIds
+            @Param("fundingArticleGifticonIds") List<Long> fundingArticleGifticonIds
     );
 
     interface FundingContributerNumber {
